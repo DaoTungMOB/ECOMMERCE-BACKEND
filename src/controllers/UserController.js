@@ -4,11 +4,11 @@ const User = require("../models/UserModel");
 
 const createUser = async (req, res) => {
   try {
-    const { name, email, password, confirmPassword, phone } = req.body;
+    const { name, email, password, confirmPassword } = req.body;
     const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     const isCheckEmail = reg.test(email);
 
-    if (!name || !email || !password || !confirmPassword || !phone) {
+    if (!email || !password) {
       return res.status(200).json({
         status: "error",
         message: "The input is required",
@@ -24,7 +24,7 @@ const createUser = async (req, res) => {
         message: "The password and confirmPassword is not match",
       });
     }
-    console.log("isCheckEmail", isCheckEmail);
+
     const response = await UserService.createUser(req.body);
     return res.status(200).json(response);
   } catch (e) {
@@ -35,11 +35,11 @@ const createUser = async (req, res) => {
 };
 const loginUser = async (req, res) => {
   try {
-    const { name, email, password, confirmPassword, phone } = req.body;
+    const { email, password } = req.body;
     const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     const isCheckEmail = reg.test(email);
 
-    if (!name || !email || !password || !confirmPassword || !phone) {
+    if (!email || !password) {
       return res.status(200).json({
         status: "error",
         message: "The input is required",
@@ -49,13 +49,8 @@ const loginUser = async (req, res) => {
         status: "error",
         message: "The Input is email",
       });
-    } else if (password !== confirmPassword) {
-      return res.status(200).json({
-        status: "error",
-        message: "The password and confirmPassword is not match",
-      });
     }
-    console.log("isCheckEmail", isCheckEmail);
+
     const response = await UserService.loginUser(req.body);
     return res.status(200).json(response);
   } catch (e) {
