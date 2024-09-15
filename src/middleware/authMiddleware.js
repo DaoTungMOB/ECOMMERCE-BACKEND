@@ -17,7 +17,7 @@ const authMiddleWare = (req, res, next) => {
       }
 
       // Kiểm tra xem người dùng có phải admin không
-      if (user.isAdmin) {
+      if (user?.isAdmin) {
         next(); // Cho phép tiếp tục nếu là admin
       } else {
         return res.status(403).json({
@@ -55,7 +55,7 @@ const authUserMiddleWare = (req, res, next) => {
       }
 
       // Kiểm tra quyền admin hoặc user ID
-      if (user.isAdmin || user.id === userID) {
+      if (user?.isAdmin || user?.id === userID) {
         next();
       } else {
         return res.status(403).json({

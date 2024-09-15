@@ -20,15 +20,17 @@ const refreshTokenJWTService = (token) => {
       console.log("token", token);
       jwt.verify(token, process.env.REFRESH_TOKEN, async (err, user) => {
         if (err) {
+          console.log("err", err);
           resolve({
-            status: "error",
-            message: "Authentication failed",
+            status: "ERR",
+            message: "AuthenticationS",
           });
         } else {
           // Sử dụng trực tiếp user.id và user.isAdmin thay vì payload
           const access_token = await generalAccessToken({
             id: user.id,
             isAdmin: user.isAdmin,
+            ...user,
           });
           console.log("access_token", access_token);
           resolve({
